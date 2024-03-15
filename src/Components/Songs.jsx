@@ -12,12 +12,27 @@ const Songs = () => {
         return res.json();
       })
       .then((responseJSON) => {
-        console.log(responseJSON);
+        setSongs(responseJSON);
       })
       .catch((error) => console.error(error));
   }, []);
 
-  return <div>Songs</div>;
+  return (
+    <div className="songs">
+      <h1>Songs:</h1>
+      <section>
+        {songs.map(({ name, id, artist, is_favorite, time, album }) => (
+          <div key={id}>
+            <h1 className="songName"> song name: {name}</h1>
+            <h2 className="artistName">artist name: {artist}</h2>
+            <p className="albumName">album name: {album}</p>
+            <p className="is_favorite">favorite: {is_favorite}</p>
+            <p className="time">run time: {time}</p>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
 };
 
 export default Songs;
