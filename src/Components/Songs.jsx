@@ -13,6 +13,7 @@ const Songs = () => {
       })
       .then((responseJSON) => {
         setSongs(responseJSON);
+        console.log(responseJSON);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -26,8 +27,10 @@ const Songs = () => {
             <h1 className="songName"> song name: {name}</h1>
             <h2 className="artistName">artist name: {artist}</h2>
             <p className="albumName">album name: {album}</p>
-            <p className="is_favorite">favorite: {is_favorite}</p>
             <p className="time">run time: {time}</p>
+            <p className="is_favorite">
+              {is_favorite ? <span>⭐️</span> : null}
+            </p>
           </div>
         ))}
       </section>
