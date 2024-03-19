@@ -17,25 +17,7 @@ const Song = ({ API }) => {
     is_favorite: false,
   });
 
-  // const deleteSong = () => {
-  //   fetch(`${API}/songs/${id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(() => navigate(`/songs`))
-  //     .catch((error) => console.error(error));
-  // };
-
-  // const deleteSong = () => {
-  //   fetch(`${API}/songs/${id}`, {
-  //     method: "DELETE",
-  //   })
-  //     .then(() => {
-  //       alert("Song deleted successfully!");
-  //       navigate(`/songs`);
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
-
+  // delete song function along with an alert confirming that the song was deleted
   const deleteSong = () => {
     fetch(`${API}/songs/${id}`, {
       method: "DELETE",
@@ -43,7 +25,7 @@ const Song = ({ API }) => {
       .then(() => {
         Swal.fire({
           title: "Success!",
-          text: "Song deleted successfully!",
+          text: `${song.name} deleted successfully!`,
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
