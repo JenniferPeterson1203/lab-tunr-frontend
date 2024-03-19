@@ -1,0 +1,9 @@
+header {
+  text-align: center;
+  background-color: black;
+  text-decoration: none;
+}
+button {
+  margin: 20px;
+  padding: 5px;
+}

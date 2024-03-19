@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../Components/Song.css";
 import Swal from "sweetalert2";
-// import { } from "react-router-dom";
 
 const Song = ({ API }) => {
   const navigate = useNavigate();
@@ -17,42 +16,63 @@ const Song = ({ API }) => {
     is_favorite: false,
   });
 
-  // delete song function along with an alert confirming that the song was deleted
-  const deleteSong = () => {
-    fetch(`${API}/songs/${id}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        Swal.fire({
-          title: "Success!",
-          text: `${song.name} deleted successfully!`,
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          navigate(`/songs`);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        Swal.fire({
-          title: "Error!",
-          text: "Failed to delete song.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-      });
+  // function to capitalize the first letter of a string
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   useEffect(() => {
     fetch(`${API}/songs/${id}`)
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((responseJSON) => {
-        setSong(responseJSON);
+        // Capitalize the first letter of each string
+        const formattedSong = {
+          ...responseJSON,
+          name: capitalizeFirstLetter(responseJSON.name),
+          artist: capitalizeFirstLetter(responseJSON.artist),
+          album: capitalizeFirstLetter(responseJSON.album),
+        };
+        setSong(formattedSong);
       })
       .catch((error) => console.error(error));
   }, [id]);
+
+  const deleteSong = () => {
+    Swal.fire({
+      title: `Are you sure you want to delete ${song.name}?`,
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${API}/songs/${id}`, {
+          method: "DELETE",
+        })
+          .then(() => {
+            Swal.fire({
+              title: "Success!",
+              text: `${song.name} deleted successfully!`,
+              icon: "success",
+              confirmButtonText: "OK",
+            }).then(() => {
+              navigate(`/songs`);
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete song.",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          });
+      }
+    });
+  };
 
   return (
     <div>
@@ -104,9 +124,6 @@ const Song = ({ API }) => {
           Delete
         </button>
       </div>
-      {/* <button>Back</button>
-      <button>Edit</button>
-      <button>Delete</button> */}
     </div>
   );
 };
