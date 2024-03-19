@@ -13,6 +13,16 @@ const NewSongs = ({ API }) => {
     is_favorite: false,
   });
 
+  // const isValidTime = (time) => {
+  //   // Regular expression pattern to match the time format (e.g., hours:minutes)
+  //   const timePattern = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+  //   return timePattern.test(time);
+  // };
+  const isValidTime = (time) => {
+    const timePattern = /^([0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    return timePattern.test(time);
+  };
+
   // Add a song. Redirect to the index view.
   const addSong = () => {
     fetch(`${API}/songs`, {
@@ -39,6 +49,13 @@ const NewSongs = ({ API }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check if the time input is a valid time
+    if (!isValidTime(song.time)) {
+      alert("Invalid time format. Please enter a valid time (hh:mm).");
+      return;
+    }
+
     addSong();
   };
 
